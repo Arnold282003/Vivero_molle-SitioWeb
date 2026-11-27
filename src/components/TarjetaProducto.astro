@@ -1,0 +1,40 @@
+---
+import { ruta } from '../utils/rutas.js';
+import { soles } from '../utils/formato.js';
+
+const { item, nivel = 'h2', diferida = true } = Astro.props;
+const Titulo = nivel;
+const esServicio = item.tipo === 'servicio';
+const porDesde = item.unidad.endsWith('desde');
+---
+
+<article class="tarjeta">
+  <img
+    src={ruta(`img/productos/${item.imagen}`)}
+    alt={item.alt}
+    width="400"
+    height="300"
+    loading={diferida ? 'lazy' : 'eager'}
+    decoding="async"
+  />
+  <div class="tarjeta__cuerpo">
+    <p class="etiqueta">{item.categoria}</p>
+    <Titulo class="tarjeta__titulo">{item.nombre}</Titulo>
+    <p>{item.descripcion}</p>
+    {(item.luz || item.riego) && (
+      <dl class="cuidados">
+        {item.luz && <div><dt>Luz</dt><dd>{item.luz}</dd></div>}
+        {item.riego && <div><dt>Riego</dt><dd>{item.riego}</dd></div>}
+      </dl>
+    )}
+    <p class="precio">
+      {porDesde
+        ? <><small>{item.unidad}</small> <strong>{soles(item.precio)}</strong></>
+        : <><strong>{soles(item.precio)}</strong> <small>{item.unidad}</small></>}
+    </p>
+    {!item.disponible && <p class="aviso-stock">Sin stock por ahora</p>}
+    <a class="boton boton--secundario" href={ruta(`contacto/?item=${item.id}`)}>
+      {esServicio ? 'Cotizar' : 'Consultar'}<span class="solo-lectores">: {item.nombre}</span>
+    </a>
+  </div>
+</article>

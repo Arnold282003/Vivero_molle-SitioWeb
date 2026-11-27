@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import catalogo from '../data/catalogo.json';
+import { ruta } from '../utils/rutas.js';
+
+const destacados = catalogo.items.filter((i) => i.destacado && i.disponible).slice(0, 6);
+
+const resumenes = {
+  'Plantas de interior': 'Verde que se adapta a salas, dormitorios y oficinas.',
+  'Plantas de exterior': 'Flores y suculentas para balcones, patios y jardines.',
+  'Árboles y frutales': 'Especies nativas y frutales en plantón.',
+  'Huerto en casa': 'Aromáticas y hortalizas para empezar a cosechar.',
+  'Macetas y sustratos': 'Lo que las raíces necesitan para crecer bien.',
+  Servicios: 'Diseño, mantenimiento y trasplante.',
+};
+---
+
+<Base
+  titulo="Vivero en Pachacámac, Lima | Molle & Tara"
+  descripcion="Plantas de interior y exterior, árboles nativos, frutales y huerto en casa. Visita el vivero Molle & Tara en Pachacámac o pide asesoría de jardinería."
+>
+  <section class="portada">
+    <div class="contenedor portada__rejilla">
+      <div>
+        <p class="etiqueta">Vivero familiar en Pachacámac</p>
+        <h1>Plantas que sí se adaptan a tu casa</h1>
+        <p class="entradilla">
+          Cuéntanos cuánta luz tienes y cuánto tiempo puedes dedicarles. Te ayudamos a elegir
+          especies que aguanten la humedad del invierno limeño y el sol del verano.
+        </p>
+        <div class="acciones">
+          <a class="boton" href={ruta('catalogo/')}>Ver catálogo</a>
+          <a class="boton boton--secundario" href={ruta('contacto/')}>Pedir asesoría</a>
+        </div>
+      </div>
+      <img
+        src={ruta('img/portada.svg')}
+        alt="Un molle, una lavanda, una sansevieria y un espatifilo en macetas bajo el sol"
+        width="800"
+        height="640"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2>¿Qué estás buscando?</h2>
+      <ul class="rejilla rejilla--categorias">
+        {catalogo.categorias.map((categoria) => (
+          <li>
+            <a class="categoria" href={ruta(`catalogo/?categoria=${encodeURIComponent(categoria)}`)}>
+              <strong>{categoria}</strong>
+              <span>{resumenes[categoria]}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="seccion seccion--suave">
+    <div class="contenedor">
+      <h2>Favoritos del vivero</h2>
+      <div class="rejilla rejilla--tarjetas">
+        {destacados.map((item) => <TarjetaProducto item={item} nivel="h3" />)}
+      </div>
+      <p class="centrado"><a class="boton" href={ruta('catalogo/')}>Ver todo el catálogo</a></p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2>Cómo te acompañamos</h2>
+      <ol class="rejilla rejilla--pasos">
+        <li>
+          <h3>Conversamos</h3>
+          <p>Trae fotos de tu espacio. Revisamos luz, viento y tamaño antes de recomendar.</p>
+        </li>
+        <li>
+          <h3>Elegimos juntos</h3>
+          <p>Te proponemos opciones según tu presupuesto y la rutina de riego que puedas cumplir.</p>
+        </li>
+        <li>
+          <h3>Te seguimos de cerca</h3>
+          <p>Si una hoja se pone amarilla, mándanos una foto por correo y vemos qué ajustar.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+</Base>

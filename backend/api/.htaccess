@@ -1,0 +1,6 @@
+Options -Indexes
+
+# Los archivos de configuración no se sirven por web.
+<FilesMatch "^config(\.example)?\.php$">
+    Require all denied
+</FilesMatch>

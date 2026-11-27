@@ -1,0 +1,40 @@
+---
+import { negocio } from '../data/negocio.js';
+import { ruta } from '../utils/rutas.js';
+
+const { direccion } = negocio;
+---
+
+<footer class="pie">
+  <div class="contenedor pie__rejilla">
+    <div>
+      <p class="pie__marca">{negocio.nombre}</p>
+      <p>Plantas criadas con paciencia y consejos claros para que prosperen en tu casa.</p>
+    </div>
+    <div>
+      <h2>Visítanos</h2>
+      <address>
+        {direccion.calle}<br />
+        {direccion.distrito}, {direccion.region}<br />
+        <a href={`tel:${negocio.telefono}`}>{negocio.telefonoVisible}</a><br />
+        <a href={`mailto:${negocio.correo}`}>{negocio.correo}</a>
+      </address>
+    </div>
+    <div>
+      <h2>Horario</h2>
+      <ul class="lista-limpia">
+        {negocio.horarios.map((h) => <li>{h.texto}: {h.horas}</li>)}
+        <li>{negocio.diaCerrado}</li>
+      </ul>
+    </div>
+    <nav aria-label="Pie de página">
+      <h2>Secciones</h2>
+      <ul class="lista-limpia">
+        <li><a href={ruta('catalogo/')}>Catálogo y servicios</a></li>
+        <li><a href={ruta('nosotros/')}>Nosotros</a></li>
+        <li><a href={ruta('contacto/')}>Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+  <p class="contenedor pie__legal">© {new Date().getFullYear()} {negocio.nombre}</p>
+</footer>

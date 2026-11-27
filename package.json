@@ -1,0 +1,20 @@
+{
+  "name": "vivero-molle-y-tara",
+  "version": "1.0.0",
+  "description": "Sitio web del vivero Molle & Tara",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "catalogo": "python scripts/generar_catalogo.py"
+  },
+  "dependencies": {
+    "astro": "^7.4.13"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  }
+}

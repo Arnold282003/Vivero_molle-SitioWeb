@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import catalogo from '../data/catalogo.json';
+import { negocio } from '../data/negocio.js';
+import { ruta } from '../utils/rutas.js';
+
+const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT || ruta('api/contacto.php');
+// Permite completar el formulario cuando se llega con ?item=<id>.
+const referencias = Object.fromEntries(
+  catalogo.items.map((i) => [i.id, { nombre: i.nombre, tipo: i.tipo }]),
+);
+const asuntos = [
+  ['producto', 'Consulta sobre un producto'],
+  ['servicio', 'Cotización de un servicio'],
+  ['visita', 'Visita al vivero'],
+  ['otro', 'Otro tema'],
+];
+const { direccion } = negocio;
+---
+
+<Base
+  titulo="Contacto, horario y ubicación | Molle & Tara"
+  descripcion="Escríbele al vivero Molle & Tara para consultar stock, cotizar jardinería o planear tu visita. Dirección en Pachacámac, teléfono, correo y horarios."
+>
+  <div class="cabecera-pagina">
+    <div class="contenedor">
+      <h1>Contacto</h1>
+      <p class="entradilla">Respondemos las consultas en un plazo de uno o dos días hábiles.</p>
+    </div>
+  </div>
+
+  <div class="contenedor seccion dos-columnas dos-columnas--arriba">
+    <section aria-labelledby="titulo-formulario">
+      <h2 id="titulo-formulario">Envíanos un mensaje</h2>
+      <p>Todos los campos son obligatorios, salvo el teléfono.</p>
+
+      <form id="formulario-contacto" class="formulario" action={endpoint} method="post"
+        data-referencias={JSON.stringify(referencias)} data-correo={negocio.correo}>
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" required
+            minlength="2" maxlength="80" aria-describedby="error-nombre" />
+          <p class="error" id="error-nombre"></p>
+        </div>
+        <div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" type="email" autocomplete="email" required
+            maxlength="120" aria-describedby="error-correo" />
+          <p class="error" id="error-correo"></p>
+        </div>
+        <div class="campo">
+          <label for="telefono">Teléfono (opcional)</label>
+          <input id="telefono" name="telefono" type="tel" autocomplete="tel" maxlength="20"
+            aria-describedby="error-telefono" />
+          <p class="error" id="error-telefono"></p>
+        </div>
+        <div class="campo">
+          <label for="asunto">Asunto</label>
+          <select id="asunto" name="asunto" required aria-describedby="error-asunto">
+            <option value="">Elige una opción</option>
+            {asuntos.map(([valor, texto]) => <option value={valor}>{texto}</option>)}
+          </select>
+          <p class="error" id="error-asunto"></p>
+        </div>
+        <div class="campo">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="6" required minlength="10" maxlength="1000"
+            aria-describedby="error-mensaje"></textarea>
+          <p class="error" id="error-mensaje"></p>
+        </div>
+
+        <!-- Campo trampa contra bots: las personas no lo ven ni lo llenan. -->
+        <div class="trampa" aria-hidden="true">
+          <label for="sitio_web">No llenar este campo</label>
+          <input id="sitio_web" name="sitio_web" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="campo campo--casilla">
+          <input id="consentimiento" name="consentimiento" type="checkbox" value="1" required
+            aria-describedby="error-consentimiento" />
+          <label for="consentimiento">
+            Acepto que usen estos datos solo para responder mi consulta.
+          </label>
+          <p class="error" id="error-consentimiento"></p>
+        </div>
+
+        <button class="boton" type="submit">Enviar mensaje</button>
+        <p id="estado-formulario" class="estado" role="status"></p>
+      </form>
+    </section>
+
+    <aside class="datos-contacto" aria-labelledby="titulo-datos">
+      <h2 id="titulo-datos">Dónde estamos</h2>
+      <address>
+        {direccion.calle}, {direccion.distrito}, {direccion.region}<br />
+        <a href={`tel:${negocio.telefono}`}>{negocio.telefonoVisible}</a><br />
+        <a href={`mailto:${negocio.correo}`}>{negocio.correo}</a>
+      </address>
+      <img
+        src={ruta('img/mapa.svg')}
+        alt="Croquis de ubicación del vivero en la avenida Los Huarangos, cerca del río Lurín"
+        width="800"
+        height="450"
+        loading="lazy"
+      />
+      <h3>Horario de atención</h3>
+      <dl class="horario">
+        {negocio.horarios.map((h) => (
+          <div>
+            <dt>{h.texto}</dt>
+            <dd>{h.horas}</dd>
+          </div>
+        ))}
+      </dl>
+      <p>{negocio.diaCerrado}.</p>
+    </aside>
+  </div>
+</Base>
+
+<script>
+  import '../scripts/contacto.js';
+</script>

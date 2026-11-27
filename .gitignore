@@ -1,0 +1,24 @@
+# Dependencias y compilación
+node_modules/
+dist/
+.astro/
+
+# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+backend/api/config.php
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.tmp
+
+# Registros, sistema y editores
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.zip

@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import { ruta } from '../utils/rutas.js';
+---
+
+<Base
+  titulo="Nosotros: un vivero familiar en el valle de Lurín | Molle & Tara"
+  descripcion="Conoce cómo trabajamos en Molle & Tara: plantas aclimatadas en Pachacámac, especies nativas de poco riego y asesoría honesta para cada espacio."
+>
+  <div class="cabecera-pagina">
+    <div class="contenedor">
+      <h1>Un vivero pequeño, atendido por quienes siembran</h1>
+      <p class="entradilla">
+        Molle &amp; Tara nació en un terreno familiar de Pachacámac, con unos cuantos plantones
+        de los dos árboles que nos dan nombre.
+      </p>
+    </div>
+  </div>
+
+  <section class="seccion">
+    <div class="contenedor dos-columnas">
+      <div>
+        <h2>Nuestra historia</h2>
+        <p>
+          Empezamos compartiendo plantones con vecinos que querían sombra sin gastar demasiada agua.
+          Con el tiempo llegaron las plantas de interior, los frutales en macetón y los pedidos para
+          ordenar patios y azoteas.
+        </p>
+        <p>
+          Seguimos siendo un equipo chico. Preferimos tener menos variedades y conocer bien cada una
+          antes que llenar el vivero de especies que sufren en nuestro clima.
+        </p>
+      </div>
+      <img
+        src={ruta('img/vivero.svg')}
+        alt="Invernadero del vivero con una mesa de trabajo llena de macetas"
+        width="800"
+        height="500"
+      />
+    </div>
+  </section>
+
+  <section class="seccion seccion--suave">
+    <div class="contenedor">
+      <h2>Cómo trabajamos</h2>
+      <ul class="rejilla rejilla--pasos">
+        <li>
+          <h3>Plantas aclimatadas</h3>
+          <p>Antes de venderlas, las plantas pasan un tiempo en el vivero para adaptarse.</p>
+        </li>
+        <li>
+          <h3>Agua con criterio</h3>
+          <p>Promovemos especies nativas y de bajo consumo, como el molle y la tara.</p>
+        </li>
+        <li>
+          <h3>Consejo honesto</h3>
+          <p>Si una planta no va a vivir bien en tu espacio, te lo decimos y buscamos otra.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor angosto">
+      <h2>Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Hacen entregas a domicilio?</summary>
+        <p>
+          Coordinamos entregas en Lima Sur para pedidos grandes o macetones. El costo depende del
+          distrito y se confirma antes de enviar.
+        </p>
+      </details>
+      <details>
+        <summary>¿Qué debo saber si tengo mascotas?</summary>
+        <p>
+          Varias plantas de interior comunes, como la monstera, el potus, la sansevieria y el
+          espatifilo, son tóxicas si perros o gatos las muerden. Avísanos que tienes mascotas para
+          orientarte y consulta con tu veterinario.
+        </p>
+      </details>
+      <details>
+        <summary>¿Puedo llevar mi planta para que la revisen?</summary>
+        <p>
+          Sí. Tráela en una bolsa cerrada si sospechas de plagas, para no contagiar a las demás.
+        </p>
+      </details>
+      <p><a class="boton" href={ruta('contacto/')}>Haznos otra pregunta</a></p>
+    </div>
+  </section>
+</Base>

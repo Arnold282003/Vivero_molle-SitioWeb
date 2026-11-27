@@ -1,0 +1,39 @@
+---
+import { ruta } from '../utils/rutas.js';
+
+const enlaces = [
+  { texto: 'Inicio', destino: ruta() },
+  { texto: 'Catálogo', destino: ruta('catalogo/') },
+  { texto: 'Nosotros', destino: ruta('nosotros/') },
+  { texto: 'Contacto', destino: ruta('contacto/') },
+];
+const actual = Astro.url.pathname.replace(/\/?$/, '/');
+---
+
+<header class="encabezado">
+  <div class="contenedor encabezado__barra">
+    <a class="marca" href={ruta()}>
+      <img src={ruta('favicon.svg')} alt="" width="40" height="40" />
+      <span>Molle &amp; Tara <small>Vivero</small></span>
+    </a>
+
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="menu-boton__icono" aria-hidden="true"></span>
+      Menú
+    </button>
+
+    <nav id="menu-principal" class="menu" aria-label="Principal">
+      <ul>
+        {enlaces.map(({ texto, destino }) => (
+          <li>
+            <a href={destino} aria-current={actual === destino ? 'page' : undefined}>{texto}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  import '../scripts/menu.js';
+</script>

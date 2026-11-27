@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { ruta } from '../utils/rutas.js';
+---
+
+<Base
+  titulo="Página no encontrada | Molle & Tara"
+  descripcion="La dirección que buscas no existe en el sitio del vivero Molle & Tara."
+  indexar={false}
+>
+  <div class="contenedor seccion centrado">
+    <h1>Esta página no brotó</h1>
+    <p>Puede que el enlace haya cambiado o que la dirección tenga un error.</p>
+    <p><a class="boton" href={ruta()}>Volver al inicio</a></p>
+  </div>
+</Base>

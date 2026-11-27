@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import catalogo from '../data/catalogo.json';
+
+const { categorias, items } = catalogo;
+---
+
+<Base
+  titulo="Catálogo de plantas y servicios de jardinería | Molle & Tara"
+  descripcion="Precios en soles de plantas, árboles nativos, frutales, huerto, macetas, sustratos y servicios de jardinería del vivero Molle & Tara en Pachacámac."
+>
+  <div class="cabecera-pagina">
+    <div class="contenedor">
+      <h1>Catálogo y servicios</h1>
+      <p class="entradilla">
+        Precios referenciales en soles, con IGV incluido. El stock cambia con la temporada:
+        escríbenos antes de venir si buscas algo puntual.
+      </p>
+    </div>
+  </div>
+
+  <div class="contenedor seccion">
+    <div class="filtros" role="search" aria-label="Filtrar el catálogo">
+      <div class="campo">
+        <label for="busqueda">Buscar</label>
+        <input id="busqueda" type="search" placeholder="Ej.: lavanda, balcón, maceta" autocomplete="off" />
+      </div>
+      <div class="chips" role="group" aria-label="Categorías">
+        <button type="button" class="chip" data-categoria="" aria-pressed="true">Todo</button>
+        {categorias.map((c) => (
+          <button type="button" class="chip" data-categoria={c} aria-pressed="false">{c}</button>
+        ))}
+      </div>
+      <p id="conteo" class="conteo" role="status">{items.length} resultados</p>
+    </div>
+
+    <ul class="rejilla rejilla--tarjetas" id="lista-catalogo">
+      {items.map((item, indice) => (
+        <li
+          data-categoria={item.categoria}
+          data-texto={[item.nombre, item.categoria, item.descripcion, item.luz, item.unidad].join(' ')}
+        >
+          <TarjetaProducto item={item} diferida={indice > 2} />
+        </li>
+      ))}
+    </ul>
+
+    <div id="sin-resultados" class="sin-resultados" hidden>
+      <p>No encontramos nada con esa búsqueda.</p>
+      <button type="button" class="boton" id="limpiar">Quitar filtros</button>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import '../scripts/catalogo.js';
+</script>

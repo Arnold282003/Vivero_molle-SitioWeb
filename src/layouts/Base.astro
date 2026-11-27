@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+import Encabezado from '../components/Encabezado.astro';
+import Pie from '../components/Pie.astro';
+import { negocio } from '../data/negocio.js';
+import { ruta } from '../utils/rutas.js';
+
+const { titulo, descripcion, indexar = true } = Astro.props;
+
+const absoluta = (destino) => new URL(destino, Astro.site).href;
+const canonica = absoluta(Astro.url.pathname.replace(/\/?$/, '/'));
+const imagenSocial = absoluta(ruta('img/og-portada.png'));
+
+const datosEstructurados = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'GardenStore'],
+  '@id': `${absoluta(ruta())}#negocio`,
+  name: negocio.nombre,
+  description: negocio.descripcion,
+  url: absoluta(ruta()),
+  image: imagenSocial,
+  logo: absoluta(ruta('favicon.svg')),
+  telephone: negocio.telefono,
+  email: negocio.correo,
+  priceRange: 'S/',
+  currenciesAccepted: 'PEN',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: negocio.direccion.calle,
+    addressLocality: negocio.direccion.distrito,
+    addressRegion: negocio.direccion.region,
+    addressCountry: negocio.direccion.pais,
+  },
+  openingHoursSpecification: negocio.horarios.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.dias,
+    opens: h.abre,
+    closes: h.cierra,
+  })),
+};
+// Escapa "<" para que el texto no pueda cerrar la etiqueta <script>.
+const jsonLd = JSON.stringify(datosEstructurados).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang="es-PE">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    {indexar
+      ? <link rel="canonical" href={canonica} />
+      : <meta name="robots" content="noindex" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:site_name" content={negocio.nombre} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    {indexar && <meta property="og:url" content={canonica} />}
+    <meta property="og:image" content={imagenSocial} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Molle & Tara, vivero en Pachacámac" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#1f4d36" />
+    <link rel="icon" href={ruta('favicon.svg')} type="image/svg+xml" />
+    <!-- Marca que hay JavaScript antes de pintar, para no ocultar el menú sin él. -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline type="application/ld+json" set:html={jsonLd}></script>
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <Encabezado />
+    <main id="contenido" tabindex="-1">
+      <slot />
+    </main>
+    <Pie />
+  </body>
+</html>
