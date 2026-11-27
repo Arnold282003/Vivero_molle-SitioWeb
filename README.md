@@ -1,8 +1,7 @@
 # Vivero Molle & Tara
 
 Sitio web de un vivero en Pachacámac, Lima. Presenta el catálogo de plantas y servicios, la historia del negocio y un formulario de contacto.
-
-El sitio es estático (Astro). El formulario usa un endpoint en PHP que guarda los mensajes en MySQL.
+https://arnold282003.github.io/Vivero_molle-SitioWeb/
 
 ## Características
 
